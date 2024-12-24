@@ -14,7 +14,10 @@ def edit():
     if request.method == "POST":
         new_content = request.form.get("content", "")
         with open(todo_file, "w", encoding="utf-8") as file:
-            file.write(new_content)
+            try:
+                file.write(new_content)
+            except exception as e:
+                return e
         return redirect(url_for("preview"))
     else:
         try:
@@ -27,4 +30,4 @@ def edit():
         return render_template("edit.html", content=content)
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8000, debug=True)
+    app.run(debug=True)
